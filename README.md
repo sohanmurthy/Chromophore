@@ -1,14 +1,7 @@
-SEMAPHORE
+CHROMOPHORE
 ==========
 *Sohan Murthy*
-<br>
-*2019*
 
-<img src="https://github.com/sohanmurthy/Semaphore/blob/master/img/semaphore.jpg" width = 70%>
-
-SEMAPHORE is an LED art installation located in [Coda's](https://www.coda.io) San Francisco office. It consists of 14 repurposed LED tubes controlled via custom software that generates organic shapes and patterns. The installation can be interacted with remotely via [PubNub](https://www.pubnub.com) and suitable endpoints.
-
-[Video](https://www.youtube.com/watch?v=Kkm6XAlT8IM)
 
 ### Installation:
 
