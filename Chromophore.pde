@@ -25,6 +25,8 @@ void setup() {
 
   lx.setPatterns(new LXPattern[] {
 
+    new BaseHuePattern(lx),
+    new IteratorTestPattern(lx),
     new Spirals(lx),
     new Wingbeats(lx),
     new ColorSwatches(lx, 16),
@@ -37,13 +39,13 @@ void setup() {
   //adds PubNub
   setupPubNubHandlers();
 
-  final LXTransition multiply = new MultiplyTransition(lx).setDuration(4*MINUTES);
+  final LXTransition multiply = new MultiplyTransition(lx).setDuration(5*SECONDS);
 
   for (LXPattern p : lx.getPatterns()) {
     p.setTransition(multiply);
   }
 
-  lx.enableAutoTransition(17*MINUTES);
+  //lx.enableAutoTransition(17*MINUTES);
 
   //output = buildOutput();
 
