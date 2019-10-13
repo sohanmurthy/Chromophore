@@ -71,7 +71,7 @@ Spirals
 
 class Spirals extends LXPattern {
 
-  final int MAX_SPIRALS = 12;
+  final int MAX_SPIRALS = 3;
   final DiscreteParameter docs = new DiscreteParameter("Num", 3, 1, MAX_SPIRALS);
 
 
@@ -235,7 +235,7 @@ class Wingbeats extends LXPattern {
   Wingbeats(LX lx) {
     super(lx);
 
-    for (int i = 0; i < 7; ++i) {
+    for (int i = 0; i < 3; ++i) {
       addLayer(new Wing(lx, i*15));
     }
   }
@@ -368,5 +368,153 @@ class Wingbeats extends LXPattern {
 
     }
 
+  }
+}
+
+
+
+/******************
+Spirals (free radical)
+*******************/
+
+class SpiralsFR extends LXPattern {
+  class Wave extends LXLayer {
+    
+    final private SinLFO rate1 = new SinLFO(200000*2, 290000*2, 17000);
+    final private SinLFO off1 = new SinLFO(-4*TWO_PI, 4*TWO_PI, rate1);
+    final private SinLFO wth1 = new SinLFO(7, 12, 30000);
+
+    final private SinLFO rate2 = new SinLFO(228000*1.6, 310000*1.6, 22000);
+    final private SinLFO off2 = new SinLFO(-4*TWO_PI, 4*TWO_PI, rate2);
+    final private SinLFO wth2 = new SinLFO(15, 20, 44000);
+
+    final private SinLFO rate3 = new SinLFO(160000, 289000, 14000);
+    final private SinLFO off3 = new SinLFO(-2*TWO_PI, 2*TWO_PI, rate3);
+    final private SinLFO wth3 = new SinLFO(12, 140, 40000);
+
+    final private float hOffset;
+    
+    Wave(LX lx, float o) {
+      super(lx);
+      hOffset = o;
+      addModulator(rate1.randomBasis()).start();
+      addModulator(rate2.randomBasis()).start();
+      addModulator(rate3.randomBasis()).start();
+      addModulator(off1.randomBasis()).start();
+      addModulator(off2.randomBasis()).start();
+      addModulator(off3.randomBasis()).start();
+      addModulator(wth1.randomBasis()).start();
+      addModulator(wth2.randomBasis()).start();
+      addModulator(wth3.randomBasis()).start();
+    }
+
+    public void run(double deltaMs) {
+      for (LXPoint p : model.points) {
+        
+        float vy1 = model.yRange/4 * sin(off1.getValuef() + (p.x - model.cx) / wth1.getValuef());
+        float vy2 = model.yRange/4 * sin(off2.getValuef() + (p.x - model.cx) / wth2.getValuef());
+        float vy = model.ay + vy1 + vy2;
+        
+        float thickness = 4 + 2 * sin(off3.getValuef() + (p.x - model.cx) / wth3.getValuef());
+        float ts = thickness/1.2;
+
+        blendColor(p.index, LXColor.hsb(
+        (lx.getBaseHuef() + hOffset + (p.x / model.xRange) * 90) % 360,
+        min(65, (100/ts)*abs(p.y - vy)), 
+        max(0, 40 - (40/thickness)*abs(p.y - vy))
+        ), LXColor.Blend.ADD);
+      }
+    }
+   
+  }
+
+  SpiralsFR(LX lx) {
+    super(lx);
+    for (int i = 0; i < 10; ++i) {
+      addLayer(new Wave(lx, i*6));
+    }
+  }
+
+  public void run(double deltaMs) {
+    setColors(#000000);
+    lx.cycleBaseHue(5.42*MINUTES);
+  }
+}
+
+
+/******************
+Blobs Random
+*******************/
+
+class BlobsRand extends LXPattern {
+
+
+  final int MAX_BLOBS = 30;
+  final int bright = 80;
+  final DiscreteParameter docs = new DiscreteParameter("Num", 5, 3, MAX_BLOBS);
+
+  BlobsRand(LX lx) {
+    super(lx);
+    addParameter(docs);
+    for (int i = 0; i < MAX_BLOBS; ++i) {
+      addLayer(new Blob(lx, i));
+    }
+  }
+
+  class Blob extends LXLayer {
+
+    //private final SinLFO interval = new SinLFO(7000, 13000, 28000);
+
+    private final Click click = new Click(random(6000, 13000));
+    //private final Click click = new Click(interval);
+    private final QuadraticEnvelope px = new QuadraticEnvelope(0, 0, 0).setEase(QuadraticEnvelope.Ease.BOTH);
+    private final QuadraticEnvelope py = new QuadraticEnvelope(0, 0, 0).setEase(QuadraticEnvelope.Ease.BOTH);
+
+    private final SinLFO size = new SinLFO(4*INCHES, 10*INCHES, random(6000, 9600));
+
+    final int num;
+
+    Blob(LX lx, int num) {
+      super(lx);
+      this.num = num;
+      //addModulator(interval).start();
+      addModulator(click).start();
+      addModulator(px);
+      addModulator(py);
+      addModulator(size).start();
+      init();
+    }
+
+    public void run(double deltaMs) {
+      if (click.click()) {
+        init();
+      }
+      if (this.num > docs.getValuei()) {
+        return;
+      }
+      for (LXPoint p : model.points) {
+
+        float b = bright - (bright / size.getValuef())*dist(p.x/2.2, p.y, px.getValuef(), py.getValuef());
+        float s = b/3;
+
+        if (b > 0) {
+          blendColor(p.index, LXColor.hsb(
+            (lx.getBaseHuef() + (p.y / model.yRange) * 90) % 360,
+            min(65, (100/s)*abs(p.y - py.getValuef())),
+            b), LXColor.Blend.ADD);
+        }
+      }
+      lx.cycleBaseHue(7.125*MINUTES);
+    }
+
+    private void init() {
+      px.setRangeFromHereTo(random(model.xMin, model.cx)).setPeriod(random(3800, 6000)).start();
+      py.setRangeFromHereTo(random(model.yMin, model.yMax)).setPeriod(random(3800, 6000)).start();
+    }
+
+  }
+
+  public void run(double deltaMs) {
+    setColors(#000000);
   }
 }

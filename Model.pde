@@ -23,7 +23,7 @@ static class Model extends LXModel {
   private static class Fixture extends LXAbstractFixture {
 
     Fixture() {
-      //angled tubes with an offset
+      //angled tubes with an irregular offset pattern
       for (int i = 0; i < 1; i++) {
         addPoints(new TubeAngle(0, 0, TUBE_ANGLE));
         addPoints(new TubeAngle(X_SPACING, Y_SPACING, TUBE_ANGLE));
