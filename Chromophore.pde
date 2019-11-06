@@ -25,14 +25,11 @@ void setup() {
 
   lx.setPatterns(new LXPattern[] {
 
-    new BaseHuePattern(lx),
-    new IteratorTestPattern(lx),
+    //new BaseHuePattern(lx),
+    //new IteratorTestPattern(lx),
+    new Salmon(lx),
     new Spirals(lx),
-    new SpiralsFR(lx),
-    new Wingbeats(lx),
     new ColorSwatches(lx, 16),
-    new Blobs(lx),
-    new BlobsRand(lx),
 
     });
 
