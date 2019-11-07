@@ -1,7 +1,7 @@
 /********************************************************
 
-SEMAPHORE is an LED art installation located in Coda's
-San Francisco Office. It consists of 14 repurposed LED
+CHROMOPHORE is an LED art installation located in Coda's
+Seattle Office. It consists of 12 repurposed LED
 tubs controlled via custom software that generates organic
 shapes and patterns. The installation can be interacted
 with remotely via PubNub and suitable endpoints.
