@@ -219,3 +219,54 @@ class Salmon extends LXPattern {
   }
     
 }
+
+/**********************
+Jellyfish
+**********************/
+
+
+class Jellyfish extends LXPattern {
+  Jellyfish(LX lx) {
+    super(lx);
+    for (int i = 0; i < 6; ++i) {
+      addLayer(new Jelly(lx));
+    }
+  }
+  
+  public void run(double deltaMs) {
+    setColors(#000000);
+  }
+  
+  class Jelly extends LXLayer {
+    
+    private SinLFO xp = new SinLFO(random(17000*3, 23000*3), random(29000*3, 39000*3), random(31000, 53000));
+    private SinLFO yp = new SinLFO(random(17000, 25000), random(29000, 39000), random(31000, 53000));
+    private SinLFO x = new SinLFO(model.xMin, model.xMax, xp);
+    private SinLFO y = new SinLFO(model.yMin, model.yMax, yp);
+    private SinLFO r = new SinLFO(random(3, 6), random(7, 10), random(2000, 6000));
+    final SinLFO breath;
+    
+    Jelly(LX lx) {
+      super(lx);
+      startModulator(xp.randomBasis());
+      startModulator(yp.randomBasis());
+      startModulator(x.randomBasis());
+      startModulator(y.randomBasis());
+      startModulator(r.randomBasis());
+      startModulator(breath = new SinLFO(0, startModulator(new SinLFO(0, 3, random(9000, 17000))), random(5000, 9000)));
+    }
+    
+    public void run(double deltaMs) {
+      float xf = x.getValuef();
+      float yf = y.getValuef();
+      float rf = r.getValuef();
+      float bf = breath.getValuef();
+      for (LXPoint p : model.points) {
+        float b = 100 - 30*abs(dist(p.x, p.y, xf, yf) - (rf + bf));
+        if (b > 0) {
+            blendColor(p.index, LXColor.hsb(23,60,b), LXColor.Blend.LIGHTEST);
+        }
+      }
+    }
+  }
+}

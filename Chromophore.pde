@@ -27,6 +27,8 @@ void setup() {
 
     //new BaseHuePattern(lx),
     //new IteratorTestPattern(lx),
+    
+    new Jellyfish(lx),
     new Salmon(lx),
     new Spirals(lx),
     new ColorSwatches(lx, 16),
