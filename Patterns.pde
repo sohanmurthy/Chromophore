@@ -154,13 +154,13 @@ class Salmon extends LXPattern {
     super(lx);
     for (int i = 0; i < num; ++i) {
       addLayer(new Fish(lx));
-      lx.cycleBaseHue(60*MINUTES);
+      lx.cycleBaseHue(10*MINUTES);
+      
     }
   }
   
   public void run(double deltaMs) {
     LXColor.scaleBrightness(colors, max(0, (float) (1 - deltaMs / 800.f)), null);
-    
   }
   
   
@@ -228,13 +228,14 @@ Jellyfish
 class Jellyfish extends LXPattern {
   Jellyfish(LX lx) {
     super(lx);
-    for (int i = 0; i < 6; ++i) {
-      addLayer(new Jelly(lx));
+    for (int i = 0; i < 8; ++i) {
+      addLayer(new Jelly(lx, i*8.4));
     }
   }
   
   public void run(double deltaMs) {
     setColors(#000000);
+    lx.cycleBaseHue(6.67*MINUTES);
   }
   
   class Jelly extends LXLayer {
@@ -243,10 +244,17 @@ class Jellyfish extends LXPattern {
     private SinLFO yp = new SinLFO(random(17000, 25000), random(29000, 39000), random(31000, 53000));
     private SinLFO x = new SinLFO(model.xMin, model.xMax, xp);
     private SinLFO y = new SinLFO(model.yMin, model.yMax, yp);
-    private SinLFO r = new SinLFO(random(3, 6), random(7, 10), random(2000, 6000));
+    private SinLFO r = new SinLFO(random(2, 4), random(7, 10), random(2000, 6000));
     final SinLFO breath;
+    private float hOffset;
     
-    Jelly(LX lx) {
+    //noise saturation
+    private float accum = 0;
+    final float spd = 0.5;
+    final float range = 100;
+    final float scale = 0.2;
+    
+    Jelly(LX lx, float o) {
       super(lx);
       startModulator(xp.randomBasis());
       startModulator(yp.randomBasis());
@@ -254,6 +262,8 @@ class Jellyfish extends LXPattern {
       startModulator(y.randomBasis());
       startModulator(r.randomBasis());
       startModulator(breath = new SinLFO(0, startModulator(new SinLFO(0, 3, random(9000, 17000))), random(5000, 9000)));
+      
+      hOffset = o;
     }
     
     public void run(double deltaMs) {
@@ -261,12 +271,26 @@ class Jellyfish extends LXPattern {
       float yf = y.getValuef();
       float rf = r.getValuef();
       float bf = breath.getValuef();
+      
+      int falloff = 25;
+      
+      accum += deltaMs/1000. * spd;
+      float sv = scale;
+      
       for (LXPoint p : model.points) {
-        float b = 100 - 30*abs(dist(p.x, p.y, xf, yf) - (rf + bf));
+        float b = 100 - falloff*abs(dist(p.x, p.y, xf, yf) - (rf + bf));
+        float s = constrain(50 + range*(-1 + 2*noise(sv*p.x, sv*p.y, accum)), 0, 100);
         if (b > 0) {
-            blendColor(p.index, LXColor.hsb(23,60,b), LXColor.Blend.LIGHTEST);
+            blendColor(p.index,
+                       LXColor.hsb(
+                                   lx.getBaseHuef() + hOffset,
+                                   s,
+                                   b
+                                 ),
+                       LXColor.Blend.LIGHTEST);
         }
       }
     }
   }
+  
 }
