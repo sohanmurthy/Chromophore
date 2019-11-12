@@ -229,7 +229,7 @@ class Jellyfish extends LXPattern {
   Jellyfish(LX lx) {
     super(lx);
     for (int i = 0; i < 8; ++i) {
-      addLayer(new Jelly(lx, i*8.4));
+      addLayer(new Jelly(lx, i*8.375));
     }
   }
   
@@ -240,11 +240,11 @@ class Jellyfish extends LXPattern {
   
   class Jelly extends LXLayer {
     
-    private SinLFO xp = new SinLFO(random(17000*3, 23000*3), random(29000*3, 39000*3), random(31000, 53000));
+    private SinLFO xp = new SinLFO(random(17000*5, 23000*5), random(29000*5, 39000*5), random(31000, 53000));
     private SinLFO yp = new SinLFO(random(17000, 25000), random(29000, 39000), random(31000, 53000));
     private SinLFO x = new SinLFO(model.xMin, model.xMax, xp);
     private SinLFO y = new SinLFO(model.yMin, model.yMax, yp);
-    private SinLFO r = new SinLFO(random(2, 4), random(7, 10), random(2000, 6000));
+    private SinLFO r = new SinLFO(2, random(7, 9), random(2000, 2500));
     final SinLFO breath;
     private float hOffset;
     
@@ -272,7 +272,7 @@ class Jellyfish extends LXPattern {
       float rf = r.getValuef();
       float bf = breath.getValuef();
       
-      int falloff = 25;
+      int falloff = 22;
       
       accum += deltaMs/1000. * spd;
       float sv = scale;
