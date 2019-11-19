@@ -23,31 +23,31 @@ static class Model extends LXModel {
   private static class Fixture extends LXAbstractFixture {
 
     Fixture() {
-        
+
         //first row
         addPoints(new TubeAngle(0, 0, TUBE_ANGLE));
         addPoints(new TubeAngle(X_SPACING, Y_SPACING, TUBE_ANGLE));
         addPoints(new TubeAngle(X_SPACING*2, Y_SPACING*2, TUBE_ANGLE));
         addPoints(new TubeAngle(X_SPACING*3, Y_SPACING*3, TUBE_ANGLE));
-        
+
         //second row
         addPoints(new TubeAngle(ROW_2_OFFSET_X,               ROW_2_OFFSET_Y, TUBE_ANGLE));
         addPoints(new TubeAngle(ROW_2_OFFSET_X+X_SPACING,     ROW_2_OFFSET_Y+Y_SPACING, TUBE_ANGLE));
         addPoints(new TubeAngle(ROW_2_OFFSET_X+(X_SPACING*2), ROW_2_OFFSET_Y+(Y_SPACING*2), TUBE_ANGLE));
         addPoints(new TubeAngle(ROW_2_OFFSET_X+(X_SPACING*3), ROW_2_OFFSET_Y+(Y_SPACING*3), TUBE_ANGLE));
         addPoints(new TubeAngle(ROW_2_OFFSET_X+(X_SPACING*4), ROW_2_OFFSET_Y+(Y_SPACING*4), TUBE_ANGLE));
-        
+
         //third row
         addPoints(new TubeAngle(ROW_3_OFFSET_X,               ROW_3_OFFSET_Y, TUBE_ANGLE));
         addPoints(new TubeAngle(ROW_3_OFFSET_X+X_SPACING,     ROW_3_OFFSET_Y+Y_SPACING, TUBE_ANGLE));
         addPoints(new TubeAngle(ROW_3_OFFSET_X+(X_SPACING*2), ROW_3_OFFSET_Y+(Y_SPACING*2), TUBE_ANGLE));
-      
+
     }
   }
 }
 
 
-//Tubes that are oriented a specified angle (theta)
+//Tubes that are oriented at a specified angle (theta)
 static class TubeAngle extends LXAbstractFixture {
 
   private TubeAngle(int xP, int yP, int theta) {
@@ -57,5 +57,5 @@ static class TubeAngle extends LXAbstractFixture {
       );
     }
   }
-  
+
 }
