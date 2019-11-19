@@ -37,9 +37,6 @@ void setup() {
 
   lx.addEffect(effects = new Effects(lx));
 
-  //adds PubNub
-  setupPubNubHandlers();
-
   final LXTransition multiply = new MultiplyTransition(lx).setDuration(3*MINUTES);
 
   for (LXPattern p : lx.getPatterns()) {
@@ -48,6 +45,7 @@ void setup() {
 
   lx.enableAutoTransition(17*MINUTES);
 
+  //adds Output -- UNCOMMENT when running onsite
   //output = buildOutput();
 
   // Adds UI elements -- COMMENT all of this out if running on Linux in a headless environment
@@ -59,9 +57,12 @@ void setup() {
     .setRadiusBounds(2*FEET, 20*FEET)
     .addComponent(pointCloud = new UIPointCloud(lx, model).setPointSize(4))
     );
-
   lx.ui.addLayer(new UIChannelControl(lx.ui, lx, 0, 0));
   lx.ui.addLayer(new UIEffects(lx.ui, 0, 320));
+
+  //adds PubNub
+  setupPubNubHandlers();
+
 }
 
 

@@ -23,8 +23,6 @@ static class Model extends LXModel {
   private static class Fixture extends LXAbstractFixture {
 
     Fixture() {
-      //angled tubes with an irregular offset pattern
-      for (int i = 0; i < 1; i++) {
         
         //first row
         addPoints(new TubeAngle(0, 0, TUBE_ANGLE));
@@ -43,15 +41,13 @@ static class Model extends LXModel {
         addPoints(new TubeAngle(ROW_3_OFFSET_X,               ROW_3_OFFSET_Y, TUBE_ANGLE));
         addPoints(new TubeAngle(ROW_3_OFFSET_X+X_SPACING,     ROW_3_OFFSET_Y+Y_SPACING, TUBE_ANGLE));
         addPoints(new TubeAngle(ROW_3_OFFSET_X+(X_SPACING*2), ROW_3_OFFSET_Y+(Y_SPACING*2), TUBE_ANGLE));
-
-      }
       
     }
   }
 }
 
 
-//Tubes that are oriented left-to-right at a specified angle (theta)
+//Tubes that are oriented a specified angle (theta)
 static class TubeAngle extends LXAbstractFixture {
 
   private TubeAngle(int xP, int yP, int theta) {
