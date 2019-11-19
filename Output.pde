@@ -1,6 +1,4 @@
 //Connects to local Fadecandy server and maps P3LX points to physical pixels
-//TODO: Simplify output function
-
 FadecandyOutput buildOutput() {
   FadecandyOutput output = null;
   int[] pointIndices = buildPoints();
@@ -11,9 +9,9 @@ FadecandyOutput buildOutput() {
 
 //Function that maps point indices to pixels on led strips
 int[] buildPoints() {
-  int pointIndices[] = new int[768];
+  int pointIndices[] = new int[model.size];
   int i = 0;
-  for (int pixels = 0; pixels < 768; pixels = pixels + 1) {
+  for (int pixels = 0; pixels < model.size; pixels = pixels + 1) {
           pointIndices[i] = pixels;
       i++;
   }
