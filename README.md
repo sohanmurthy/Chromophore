@@ -12,4 +12,4 @@ CHROMOPHORE
 5. Insert your subscribe key in `PubNub.pde`.
 
 
-Special thanks to [Mark Slee](https://github.com/mcslee/) & [Heron Arts](https://github.com/heronarts/) for developing [LX Studio](http://lx.studio) and the [P3LX library]((https://github.com/heronarts/P3LX)), which powers SEMAPHORE.
+Special thanks to [Mark Slee](https://github.com/mcslee/) & [Heron Arts](https://github.com/heronarts/) for developing [LX Studio](http://lx.studio) and the [P3LX library]((https://github.com/heronarts/P3LX)), which powers CHROMOPHORE.
