@@ -2,7 +2,7 @@
 FadecandyOutput buildOutput() {
   FadecandyOutput output = null;
   int[] pointIndices = buildPoints();
-  output = new FadecandyOutput(lx, "127.0.0.1", 7890, pointIndices);
+  output = new FadecandyOutput(lx, "172.25.26.193", 7890, pointIndices);
   lx.addOutput(output);
   return output;
 }

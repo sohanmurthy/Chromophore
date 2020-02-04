@@ -144,11 +144,11 @@ Salmon
 
 class Salmon extends LXPattern {
   
-  final float size = 8;
+  final float size = 6;
   final float vLow = 8;
   final float vHigh = 20;
   final int bright = 16;
-  final int num = 4;
+  final int num = 3;
   
    Salmon(LX lx) {
     super(lx);
@@ -302,10 +302,10 @@ class Jellyfish extends LXPattern {
     private float hOffset;
     
     //noise saturation
-    private float accum = 0;
-    final float spd = 0.5;
-    final float range = 100;
-    final float scale = 0.2;
+    //private float accum = 0;
+    //final float spd = 0.5;
+    //final float range = 100;
+    //final float scale = 0.2;
     
     Jelly(LX lx, float o) {
       super(lx);
@@ -327,18 +327,18 @@ class Jellyfish extends LXPattern {
       
       float falloff = 22;
       
-      accum += deltaMs/1000. * spd;
-      float sv = scale;
+      //accum += deltaMs/1000. * spd;
+      //float sv = scale;
       
       for (LXPoint p : model.points) {
         float b = 100 - falloff*abs(dist(p.x, p.y, xf, yf) - (rf + bf));
-        float s = constrain(50 + range*(-1 + 2*noise(sv*p.x, sv*p.y, accum)), 0, 100);
+        //float s = constrain(50 + range*(-1 + 2*noise(sv*p.x, sv*p.y, accum)), 0, 100);
         if (b > 0) {
             blendColor(p.index,
                        LXColor.hsb(
                                    lx.getBaseHuef() + hOffset,
-                                   s, //complex noise pattern
-                                   //100-(rf*10), //simple saturation scaled to radius,
+                                   //s, //complex noise pattern
+                                   100-(rf*10), //simple saturation scaled to radius,
                                    b
                                  ),
                        LXColor.Blend.LIGHTEST);
