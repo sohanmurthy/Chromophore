@@ -4,6 +4,7 @@ FadecandyOutput buildOutput() {
   int[] pointIndices = buildPoints();
   output = new FadecandyOutput(lx, "172.25.26.193", 7890, pointIndices);
   lx.addOutput(output);
+  output.brightness.setValue(0.80);
   return output;
 }
 

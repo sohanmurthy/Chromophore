@@ -45,7 +45,7 @@ class Spirals extends LXPattern {
         float ts = thickness/1.2;
 
         blendColor(p.index, LXColor.hsb(
-        (lx.getBaseHuef() + hOffset + (p.x / model.xRange) * 90) % 360,
+        (lx.getBaseHuef() + hOffset + (p.x / model.xRange) * 160) % 360,
         min(65, (100/ts)*abs(p.y - vy)), 
         max(0, 40 - (40/thickness)*abs(p.y - vy))
         ), LXColor.Blend.ADD);
@@ -56,7 +56,7 @@ class Spirals extends LXPattern {
 
   Spirals(LX lx) {
     super(lx);
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 6; ++i) {
       addLayer(new Wave(lx, i*6));
     }
   }
@@ -199,7 +199,7 @@ class Salmon extends LXPattern {
           float s = b/3;
         if (b > 0) {
           blendColor(p.index, LXColor.hsb(
-            (lx.getBaseHuef() + (p.y / model.yRange) * 90) % 360,
+            (lx.getBaseHuef() + (p.y / model.yRange) * 120) % 360,
             min(65, (100/s)*abs(p.y - yPos.getValuef())), 
             b), LXColor.Blend.ADD);
           }
@@ -282,7 +282,7 @@ class Jellyfish extends LXPattern {
   Jellyfish(LX lx) {
     super(lx);
     for (int i = 0; i < 8; ++i) {
-      addLayer(new Jelly(lx, i*8.375));
+      addLayer(new Jelly(lx, i*7.625));
     }
   }
   
@@ -293,19 +293,19 @@ class Jellyfish extends LXPattern {
   
   class Jelly extends LXLayer {
     
-    private SinLFO xp = new SinLFO(random(17000*5, 23000*5), random(29000*5, 39000*5), random(31000, 53000));
-    private SinLFO yp = new SinLFO(random(17000, 25000), random(29000, 39000), random(31000, 53000));
+    private SinLFO xp = new SinLFO(random(19000*5, 28000*5), random(32000*5, 43000*5), random(31000, 53000));
+    private SinLFO yp = new SinLFO(random(19000, 28000), random(32000, 43000), random(31000, 53000));
     private SinLFO x = new SinLFO(model.xMin, model.xMax, xp);
     private SinLFO y = new SinLFO(model.yMin, model.yMax, yp);
-    private SinLFO r = new SinLFO(2, random(7, 9), random(2000, 2500));
+    private SinLFO r = new SinLFO(2, random(7, 9), random(2500, 3500));
     final SinLFO breath;
     private float hOffset;
     
     //noise saturation
-    //private float accum = 0;
-    //final float spd = 0.5;
-    //final float range = 100;
-    //final float scale = 0.2;
+    private float accum = 0;
+    final float spd = 0.5;
+    final float range = 100;
+    final float scale = 0.2;
     
     Jelly(LX lx, float o) {
       super(lx);
@@ -327,18 +327,18 @@ class Jellyfish extends LXPattern {
       
       float falloff = 22;
       
-      //accum += deltaMs/1000. * spd;
-      //float sv = scale;
+      accum += deltaMs/1000. * spd;
+      float sv = scale;
       
       for (LXPoint p : model.points) {
         float b = 100 - falloff*abs(dist(p.x, p.y, xf, yf) - (rf + bf));
-        //float s = constrain(50 + range*(-1 + 2*noise(sv*p.x, sv*p.y, accum)), 0, 100);
+        float s = constrain(50 + range*(-1 + 2*noise(sv*p.x, sv*p.y, accum)), 0, 100);
         if (b > 0) {
             blendColor(p.index,
                        LXColor.hsb(
                                    lx.getBaseHuef() + hOffset,
-                                   //s, //complex noise pattern
-                                   100-(rf*10), //simple saturation scaled to radius,
+                                   s, //complex noise pattern
+                                   //80-(rf*6), //simple saturation scaled to radius,
                                    b
                                  ),
                        LXColor.Blend.LIGHTEST);
