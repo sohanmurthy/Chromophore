@@ -63,7 +63,7 @@ class Spirals extends LXPattern {
 
   public void run(double deltaMs) {
     setColors(#000000);
-    lx.cycleBaseHue(5.42*MINUTES);
+    lx.cycleBaseHue(9.67*MINUTES);
   }
 }
 
@@ -155,7 +155,7 @@ class Salmon extends LXPattern {
     for (int i = 0; i < num; ++i) {
       addLayer(new Fish(lx));
       addLayer(new RightFish(lx));
-      lx.cycleBaseHue(10*MINUTES);
+      lx.cycleBaseHue(12.33*MINUTES);
       
     }
   }
@@ -288,7 +288,7 @@ class Jellyfish extends LXPattern {
   
   public void run(double deltaMs) {
     setColors(#000000);
-    lx.cycleBaseHue(6.67*MINUTES);
+    lx.cycleBaseHue(6.33*MINUTES);
   }
   
   class Jelly extends LXLayer {

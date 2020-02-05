@@ -37,7 +37,7 @@ void setup() {
 
   lx.addEffect(effects = new Effects(lx));
 
-  final LXTransition multiply = new MultiplyTransition(lx).setDuration(3*SECONDS);
+  final LXTransition multiply = new MultiplyTransition(lx).setDuration(3.3*MINUTES);
 
   for (LXPattern p : lx.getPatterns()) {
     p.setTransition(multiply);
@@ -46,7 +46,7 @@ void setup() {
   lx.enableAutoTransition(17*MINUTES);
 
   //adds Output -- UNCOMMENT when running onsite
-  output = buildOutput();
+  //output = buildOutput();
 
   // Adds UI elements -- COMMENT all of this out if running on Linux in a headless environment
   size(1280, 720, P3D);
