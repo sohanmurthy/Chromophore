@@ -45,7 +45,7 @@ class Spirals extends LXPattern {
         float ts = thickness/1.2;
 
         blendColor(p.index, LXColor.hsb(
-        (lx.getBaseHuef() + hOffset + (p.x / model.xRange) * 90) % 360,
+        (lx.getBaseHuef() + hOffset + (p.x / model.xRange) * 160) % 360,
         min(65, (100/ts)*abs(p.y - vy)), 
         max(0, 40 - (40/thickness)*abs(p.y - vy))
         ), LXColor.Blend.ADD);
@@ -56,14 +56,14 @@ class Spirals extends LXPattern {
 
   Spirals(LX lx) {
     super(lx);
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 6; ++i) {
       addLayer(new Wave(lx, i*6));
     }
   }
 
   public void run(double deltaMs) {
     setColors(#000000);
-    lx.cycleBaseHue(5.42*MINUTES);
+    lx.cycleBaseHue(9.67*MINUTES);
   }
 }
 
@@ -144,23 +144,24 @@ Salmon
 
 class Salmon extends LXPattern {
   
-  final float size = 4;
-  final float vLow = 9;
-  final float vHigh = 14;
-  final int bright = 8;
-  final int num = 10;
+  final float size = 6;
+  final float vLow = 8;
+  final float vHigh = 20;
+  final int bright = 16;
+  final int num = 3;
   
    Salmon(LX lx) {
     super(lx);
     for (int i = 0; i < num; ++i) {
       addLayer(new Fish(lx));
-      lx.cycleBaseHue(10*MINUTES);
+      addLayer(new RightFish(lx));
+      lx.cycleBaseHue(12.33*MINUTES);
       
     }
   }
   
   public void run(double deltaMs) {
-    LXColor.scaleBrightness(colors, max(0, (float) (1 - deltaMs / 800.f)), null);
+    LXColor.scaleBrightness(colors, max(0, (float) (1 - deltaMs / 100.f)), null);
   }
   
   
@@ -178,7 +179,7 @@ class Salmon extends LXPattern {
       xPos.setValue(random(model.xMin, model.cx));
       xPos.setVelocity(random(vLow, vHigh));
       yPos.setValue(random(model.yMin-5, model.yMax+5));
-      yPos.setVelocity(random(0,10));
+      yPos.setVelocity(random(0,0));
       
     }
     
@@ -186,9 +187,61 @@ class Salmon extends LXPattern {
 
       xPos.setValue(random(model.xMin-3, model.xMin));
       xPos.setVelocity(random(vLow, vHigh));
+      yPos.setValue(random(model.yMin, model.yMax));
+      yPos.setVelocity(random(-5,5));
+
+    }
+    
+    private void init_fish() {
       
-      yPos.setValue(random(model.yMin-10, model.yMin+5));
-      yPos.setVelocity(random(0,10));
+       for (LXPoint p : model.points) {
+          float b = bright - (bright / size)*dist(p.x/4, p.y, xPos.getValuef(), yPos.getValuef());
+          float s = b/3;
+        if (b > 0) {
+          blendColor(p.index, LXColor.hsb(
+            (lx.getBaseHuef() + (p.y / model.yRange) * 120) % 360,
+            min(65, (100/s)*abs(p.y - yPos.getValuef())), 
+            b), LXColor.Blend.ADD);
+          }
+        } 
+      
+      }
+
+      public void run(double deltaMs) {
+        init_fish();
+      
+      if (xPos.getValue() > model.cx) {
+        init_touch();
+      }
+
+    }
+    
+  }
+  
+  
+  class RightFish extends LXLayer {
+    
+    private final Accelerator xPos = new Accelerator(0, 0, 0);
+    private final Accelerator yPos = new Accelerator(0, 0, 0);
+     
+    RightFish(LX lx) {
+      super(lx);
+      addModulator(xPos).start();
+      addModulator(yPos).start();
+      
+      xPos.setValue(random(model.cx, model.xMax));
+      xPos.setVelocity(random(-vHigh, -vLow));
+      yPos.setValue(random(model.yMin-5, model.yMax+5));
+      yPos.setVelocity(random(-5,5));
+      
+    }
+    
+    private void init_touch() {
+
+      xPos.setValue(random(model.cx, model.cx+3));
+      xPos.setVelocity(random(-vHigh, -vLow));
+      yPos.setValue(random(model.yMin, model.yMax));
+      yPos.setVelocity(random(0,0));
 
     }
     
@@ -210,7 +263,7 @@ class Salmon extends LXPattern {
       public void run(double deltaMs) {
         init_fish();
       
-      if (xPos.getValue() > model.cx) {
+      if (xPos.getValue() < model.xMin) {
         init_touch();
       }
 
@@ -229,22 +282,22 @@ class Jellyfish extends LXPattern {
   Jellyfish(LX lx) {
     super(lx);
     for (int i = 0; i < 8; ++i) {
-      addLayer(new Jelly(lx, i*8.375));
+      addLayer(new Jelly(lx, i*7.625));
     }
   }
   
   public void run(double deltaMs) {
     setColors(#000000);
-    lx.cycleBaseHue(6.67*MINUTES);
+    lx.cycleBaseHue(6.33*MINUTES);
   }
   
   class Jelly extends LXLayer {
     
-    private SinLFO xp = new SinLFO(random(17000*5, 23000*5), random(29000*5, 39000*5), random(31000, 53000));
-    private SinLFO yp = new SinLFO(random(17000, 25000), random(29000, 39000), random(31000, 53000));
+    private SinLFO xp = new SinLFO(random(19000*5, 28000*5), random(32000*5, 43000*5), random(31000, 53000));
+    private SinLFO yp = new SinLFO(random(19000, 28000), random(32000, 43000), random(31000, 53000));
     private SinLFO x = new SinLFO(model.xMin, model.xMax, xp);
     private SinLFO y = new SinLFO(model.yMin, model.yMax, yp);
-    private SinLFO r = new SinLFO(2, random(7, 9), random(2000, 2500));
+    private SinLFO r = new SinLFO(2, random(7, 9), random(2500, 3500));
     final SinLFO breath;
     private float hOffset;
     
@@ -272,7 +325,7 @@ class Jellyfish extends LXPattern {
       float rf = r.getValuef();
       float bf = breath.getValuef();
       
-      int falloff = 22;
+      float falloff = 22;
       
       accum += deltaMs/1000. * spd;
       float sv = scale;
@@ -284,7 +337,8 @@ class Jellyfish extends LXPattern {
             blendColor(p.index,
                        LXColor.hsb(
                                    lx.getBaseHuef() + hOffset,
-                                   s,
+                                   s, //complex noise pattern
+                                   //80-(rf*6), //simple saturation scaled to radius,
                                    b
                                  ),
                        LXColor.Blend.LIGHTEST);

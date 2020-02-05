@@ -37,7 +37,7 @@ void setup() {
 
   lx.addEffect(effects = new Effects(lx));
 
-  final LXTransition multiply = new MultiplyTransition(lx).setDuration(3*MINUTES);
+  final LXTransition multiply = new MultiplyTransition(lx).setDuration(3.3*MINUTES);
 
   for (LXPattern p : lx.getPatterns()) {
     p.setTransition(multiply);
