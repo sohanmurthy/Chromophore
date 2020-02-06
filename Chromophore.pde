@@ -1,7 +1,7 @@
 /********************************************************
 
-CHROMOPHORE is an LED art installation located in Coda's
-Seattle Office. It consists of 12 repurposed LED
+CHROMOPHORE is an LED art installation located in an
+office in Bellevue, WA. It consists of 12 repurposed LED
 tubs controlled via custom software that generates organic
 shapes and patterns. The installation can be interacted
 with remotely via PubNub and suitable endpoints.
@@ -27,7 +27,7 @@ void setup() {
 
     //new BaseHuePattern(lx),
     //new IteratorTestPattern(lx),
-    
+
     new Salmon(lx),
     new Spirals(lx),
     new Jellyfish(lx),
