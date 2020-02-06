@@ -1,7 +1,14 @@
 CHROMOPHORE
 ==========
 *Sohan Murthy*
+<br>
+*2020*
 
+<img src="https://github.com/sohanmurthy/Chromophore/blob/master/img/chromophore.jpg" width = 70%>
+
+CHROMOPHORE is an LED art installation located in an office space in Bellevue, WA. It consists of 12 repurposed LED tubes controlled via custom software that generates organic shapes and patterns that mimic sea life. The installation can be interacted with remotely via [PubNub](https://www.pubnub.com) and suitable endpoints.
+
+[Video](https://www.youtube.com/watch?v=asbbJ9I7n6Q)
 
 ### Installation:
 
